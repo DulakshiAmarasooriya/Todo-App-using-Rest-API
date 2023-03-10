@@ -49,11 +49,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
     final title = titleController.text;
     final description = descriptionController.text;
     final body = {
-      {
-        "title": title,
-        "description": description,
-        "is_completed": false,
-      }
+      "title": title,
+      "description": description,
+      "is_completed": false,
     };
 
     //submit data to the server
@@ -64,7 +62,28 @@ class _AddTodoPageState extends State<AddTodoPage> {
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
 
     //show success or fail message on status
-    print(response.statusCode);
-    print(response.body);
+    if (response.statusCode == 201) {
+      titleController.text = '';
+      descriptionController.text = '';
+      showSuccessMessage('Creation Success');
+    } else {
+      showErrorMessage('Creation Failed');
+    }
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
