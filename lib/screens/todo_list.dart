@@ -91,6 +91,8 @@ class _TodoListPageState extends State<TodoListPage> {
           items = filtered;
         },
       );
+    } else {
+      showErrorMessage('Deletion Failed');
     }
   }
 
@@ -116,5 +118,16 @@ class _TodoListPageState extends State<TodoListPage> {
         isLoading = false;
       },
     );
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
